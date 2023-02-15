@@ -3,6 +3,7 @@ package com.udacity.jwdnd.c1.review.model;
 public class ChatForm {
     private String username;
     private String text;
+    private String type;
 
     public String getUsername() {
         return username;
@@ -18,5 +19,13 @@ public class ChatForm {
 
     public String getText() {
         return text;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
