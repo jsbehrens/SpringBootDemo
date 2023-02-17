@@ -37,9 +37,4 @@ public class ChatMessage {
     public void setMessageid(int messageid) {
         this.messageid = messageid;
     }
-
-    public String displayChatMessage(){
-        String str = getUsername() + getMessageText();
-        return str;
-    }
 }

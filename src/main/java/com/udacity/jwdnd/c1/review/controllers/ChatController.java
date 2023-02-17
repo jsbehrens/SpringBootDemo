@@ -2,6 +2,9 @@ package com.udacity.jwdnd.c1.review.controllers;
 
 import com.udacity.jwdnd.c1.review.model.ChatForm;
 import com.udacity.jwdnd.c1.review.services.MessageService;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +28,8 @@ public class ChatController {
 
     @PostMapping("/chat")
     public String addChat(@ModelAttribute("newChat") ChatForm chatForm, Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        chatForm.setUsername(auth.getPrincipal().toString());
         messageService.addMessage(chatForm);
         model.addAttribute("chatMessages", this.messageService.getChatMessages());
         chatForm.setText("");

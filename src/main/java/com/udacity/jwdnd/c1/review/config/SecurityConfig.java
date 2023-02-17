@@ -3,7 +3,6 @@ package com.udacity.jwdnd.c1.review.config;
 import com.udacity.jwdnd.c1.review.services.AuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,10 +17,6 @@ public class SecurityConfig {
         this.authenticationService = authenticationService;
     }
 
-    @Bean
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(this.authenticationService);
-    }
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,13 +25,17 @@ public class SecurityConfig {
                         .requestMatchers("/signup", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(this.authenticationService)
+
                 .formLogin((form) -> form
                     .loginPage("/login")
                     .permitAll()
                 )
 
                 .formLogin((form) -> form
-                .defaultSuccessUrl("/home", true));
+                .defaultSuccessUrl("/chat", true))
+
+                .logout().logoutSuccessUrl("/login");
         return http.build();
     }
 }
